@@ -3,7 +3,7 @@
 /**
  * @wordpress-plugin
  * Plugin Name:       FremeditiGuitars - Services
- * Description:       FremeditiGuitars - Servicess Post Type
+ * Description:       FremeditiGuitars - Services Post Type
  * Version:           1.0.0
  * Author:            Vasilis Koutsopoulos
  * License:           GPL-2.0+
@@ -20,4 +20,7 @@ define( 'FG_SERVICES_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'FG_SERVICES_PLUGIN_DIR_NAME', basename( FG_SERVICES_PLUGIN_DIR_PATH ) );
 define( 'FG_SERVICES_PLUGIN_URL', plugins_url( FG_SERVICES_PLUGIN_DIR_NAME ) );
 
+include 'includes/class-fg-services.php';
+include 'includes/class-fg-services-post-type.php';
 
+FG_Services::instance();
