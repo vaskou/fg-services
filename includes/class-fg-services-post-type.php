@@ -22,6 +22,7 @@ class FG_Services_Post_Type {
 	private function __construct() {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
+		add_action( 'pre_get_posts', array( $this, 'custom_query' ) );
 	}
 
 	/**
@@ -69,7 +70,7 @@ class FG_Services_Post_Type {
 			'label'         => __( 'FG Service', 'fg-services' ),
 			'description'   => __( 'FG Service Description', 'fg-services' ),
 			'labels'        => $labels,
-			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+			'supports'      => array( 'title', 'editor', 'excerpt' ), //'thumbnail',
 			'taxonomies'    => array( self::TAXONOMY_NAME ),
 			'hierarchical'  => false,
 			'public'        => true,
@@ -126,5 +127,68 @@ class FG_Services_Post_Type {
 		);
 
 		register_taxonomy( self::TAXONOMY_NAME, array( self::POST_TYPE_NAME ), $args );
+	}
+
+	/**
+	 * @param $query WP_Query
+	 */
+	public function custom_query( $query ) {
+		$is_shortcode = $query->get( 'is_shortcode' );
+		$is_post_in   = $query->get( 'post__in' );
+
+		if ( ! is_admin() && ( $query->is_main_query() || $is_shortcode ) ) {
+			if ( self::POST_TYPE_NAME == $query->get( 'post_type' ) ) {
+				$query->set( 'orderby', 'menu_order title' );
+				$query->set( 'order', 'ASC' );
+				$query->set( 'suppress_filters', 'true' );
+
+				if ( ! empty( $is_post_in ) ) {
+					$query->set( 'orderby', 'post__in' );
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param $atts array
+	 *
+	 * @return WP_Query
+	 */
+	public function get_query( $atts = array() ) {
+		return $this->_get_query( $atts );
+	}
+
+	/**
+	 * @return int[]|WP_Post[]
+	 */
+	public function get_items() {
+		return $this->_get_items();
+	}
+
+
+	/**
+	 * @param $atts array
+	 *
+	 * @return WP_Query
+	 */
+	private function _get_query( $atts = array() ) {
+		$default = array(
+			'post_type'      => self::POST_TYPE_NAME,
+			'post_status'    => 'publish',
+			'posts_per_page' => - 1,
+		);
+
+		$args = wp_parse_args( $atts, $default );
+
+		return new WP_Query( $args );
+	}
+
+	/**
+	 * @return int[]|WP_Post[]
+	 */
+	private function _get_items() {
+		$query = $this->_get_query();
+
+		return $query->get_posts();
 	}
 }

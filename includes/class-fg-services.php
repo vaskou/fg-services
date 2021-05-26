@@ -18,6 +18,7 @@ class FG_Services {
 		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
 
 		FG_Services_Post_Type::instance();
+		FG_Services_Shortcodes::instance();
 	}
 
 	public function on_plugins_loaded() {

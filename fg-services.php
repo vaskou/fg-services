@@ -22,5 +22,6 @@ define( 'FG_SERVICES_PLUGIN_URL', plugins_url( FG_SERVICES_PLUGIN_DIR_NAME ) );
 
 include 'includes/class-fg-services.php';
 include 'includes/class-fg-services-post-type.php';
+include 'includes/class-fg-services-shortcodes.php';
 
 FG_Services::instance();
