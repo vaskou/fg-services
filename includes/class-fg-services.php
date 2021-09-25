@@ -43,6 +43,10 @@ class FG_Services {
 			$has_sidebar = true;
 		}
 
+		if ( is_post_type_archive( FG_Services_Post_Type::POST_TYPE_NAME ) ) {
+			$has_sidebar = true;
+		}
+
 		return $has_sidebar;
 	}
 }
