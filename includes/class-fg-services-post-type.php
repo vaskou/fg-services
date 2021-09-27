@@ -9,6 +9,9 @@ class FG_Services_Post_Type {
 	const POST_TYPE_SLUG = 'services';
 	const TAXONOMY_SLUG = 'service_cat';
 
+	private $archive_page_slug;
+	private $archive_page_title;
+
 	private static $_instance;
 
 	public static function instance() {
@@ -20,6 +23,12 @@ class FG_Services_Post_Type {
 	}
 
 	private function __construct() {
+		$service_page_slug       = FG_Services_Settings::get_services_page_slug();
+		$this->archive_page_slug = ! empty( $service_page_slug ) ? $service_page_slug : self::POST_TYPE_SLUG;
+
+		$service_page_title      = FG_Services_Settings::get_services_page_title();
+		$this->archive_page_title = ! empty( $service_page_title ) ? $service_page_title : self::POST_TYPE_SLUG;
+
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
 //		add_action( 'pre_get_posts', array( $this, 'custom_query' ) );
@@ -81,7 +90,7 @@ class FG_Services_Post_Type {
 			'rewrite'       => $rewrite,
 			'map_meta_cap'  => true,
 			'show_in_rest'  => true,
-			'has_archive'   => true,
+			'has_archive'   => $this->archive_page_slug,
 		);
 
 		register_post_type( self::POST_TYPE_NAME, $args );

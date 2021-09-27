@@ -20,6 +20,7 @@ class FG_Services {
 		add_filter( 'fremediti_guitars_has_sidebar', array( $this, 'has_sidebar' ) );
 
 		FG_Services_Post_Type::instance();
+		FG_Services_Settings::instance();
 		FG_Services_Shortcodes::instance();
 	}
 
