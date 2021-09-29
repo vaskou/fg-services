@@ -28,6 +28,7 @@ class FG_Services_Shortcodes {
 	}
 
 	public function shortcode( $atts ) {
+		global $wp_query;
 
 		$default = array(
 			'is_shortcode' => true,
@@ -37,26 +38,35 @@ class FG_Services_Shortcodes {
 		$args = shortcode_atts( $default, $atts );
 
 		$args['post__in'] = ! empty( $args['post__in'] ) ? explode( ',', $args['post__in'] ) : array();
+		$args['paged']    = get_query_var( 'paged' ) ? (int) get_query_var( 'paged' ) : 1;
 
-		$query = FG_Services_Post_Type::instance()->get_query( $args );
+		$wp_query = FG_Services_Post_Type::instance()->get_query( $args );
 
 		ob_start();
 
-		if ( $query->have_posts() ) :
+		if ( have_posts() ) :
 			?>
             <div class="uk-grid uk-child-width-1-2@m" uk-grid>
 				<?php
-				while ( $query->have_posts() ) :
-					$query->the_post();
+				while ( have_posts() ) :
+					the_post();
 
 					get_template_part( 'template-parts/content', get_post_type() );
 
 				endwhile;
 				?>
             </div>
-		<?php
+			<?php
+
+			the_posts_pagination( array(
+				'type'      => 'list',
+				'prev_text' => '<span uk-pagination-previous></span>',
+				'next_text' => '<span uk-pagination-next></span>',
+			) );
 		endif;
+
 		wp_reset_postdata();
+		wp_reset_query();
 
 		$html = ob_get_clean();
 
