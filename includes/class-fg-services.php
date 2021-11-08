@@ -20,6 +20,7 @@ class FG_Services {
 		add_filter( 'fremediti_guitars_has_sidebar', array( $this, 'has_sidebar' ) );
 
 		FG_Services_Post_Type::instance();
+		FG_Services_Settings::instance();
 		FG_Services_Shortcodes::instance();
 	}
 
@@ -40,6 +41,10 @@ class FG_Services {
 	public function has_sidebar( $has_sidebar ) {
 
 		if ( is_singular( FG_Services_Post_Type::POST_TYPE_NAME ) ) {
+			$has_sidebar = true;
+		}
+
+		if ( is_post_type_archive( FG_Services_Post_Type::POST_TYPE_NAME ) ) {
 			$has_sidebar = true;
 		}
 

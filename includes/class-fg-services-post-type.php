@@ -9,6 +9,9 @@ class FG_Services_Post_Type {
 	const POST_TYPE_SLUG = 'services';
 	const TAXONOMY_SLUG = 'service_cat';
 
+	private $archive_page_slug;
+	private $archive_page_title;
+
 	private static $_instance;
 
 	public static function instance() {
@@ -20,9 +23,15 @@ class FG_Services_Post_Type {
 	}
 
 	private function __construct() {
+		$service_page_slug       = FG_Services_Settings::get_services_page_slug();
+		$this->archive_page_slug = ! empty( $service_page_slug ) ? $service_page_slug : self::POST_TYPE_SLUG;
+
+		$service_page_title       = FG_Services_Settings::get_services_page_title();
+		$this->archive_page_title = ! empty( $service_page_title ) ? $service_page_title : self::POST_TYPE_SLUG;
+
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
-		add_action( 'pre_get_posts', array( $this, 'custom_query' ) );
+//		add_action( 'pre_get_posts', array( $this, 'custom_query' ) );
 	}
 
 	/**
@@ -81,6 +90,7 @@ class FG_Services_Post_Type {
 			'rewrite'       => $rewrite,
 			'map_meta_cap'  => true,
 			'show_in_rest'  => true,
+			'has_archive'   => $this->archive_page_slug,
 		);
 
 		register_post_type( self::POST_TYPE_NAME, $args );
@@ -140,7 +150,7 @@ class FG_Services_Post_Type {
 			if ( self::POST_TYPE_NAME == $query->get( 'post_type' ) ) {
 				$query->set( 'orderby', 'menu_order title' );
 				$query->set( 'order', 'ASC' );
-				$query->set( 'suppress_filters', 'true' );
+//				$query->set( 'suppress_filters', 'true' );
 
 				if ( ! empty( $is_post_in ) ) {
 					$query->set( 'orderby', 'post__in' );
@@ -161,8 +171,8 @@ class FG_Services_Post_Type {
 	/**
 	 * @return int[]|WP_Post[]
 	 */
-	public function get_items() {
-		return $this->_get_items();
+	public function get_items( $atts = array() ) {
+		return $this->_get_items( $atts );
 	}
 
 
@@ -173,9 +183,9 @@ class FG_Services_Post_Type {
 	 */
 	private function _get_query( $atts = array() ) {
 		$default = array(
-			'post_type'      => self::POST_TYPE_NAME,
-			'post_status'    => 'publish',
-			'posts_per_page' => - 1,
+			'post_type' => self::POST_TYPE_NAME,
+//			'post_status'    => 'publish',
+//			'posts_per_page' => 1,
 		);
 
 		$args = wp_parse_args( $atts, $default );
@@ -186,8 +196,8 @@ class FG_Services_Post_Type {
 	/**
 	 * @return int[]|WP_Post[]
 	 */
-	private function _get_items() {
-		$query = $this->_get_query();
+	private function _get_items( $atts = array() ) {
+		$query = $this->_get_query( $atts );
 
 		return $query->get_posts();
 	}
