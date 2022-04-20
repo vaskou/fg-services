@@ -16,7 +16,7 @@ class FG_Services_Settings extends SettingsSetup {
 		return self::$_instance;
 	}
 
-	private function __construct() {
+	protected function __construct() {
 
 		$this->set_submenu_parent_slug( 'edit.php?post_type=fg_services' );
 
