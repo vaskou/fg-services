@@ -15,10 +15,22 @@ class FG_Services {
 	}
 
 	private function __construct() {
+		add_action( 'plugins_loaded', array( $this, 'includes' ) );
+
+		add_action( 'plugins_loaded', array( $this, 'init_classes' ) );
+
 		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
 		add_filter( 'fremediti_guitars_single_content_show_posted_on', array( $this, 'single_content_show_posted_on' ) );
 		add_filter( 'fremediti_guitars_has_sidebar', array( $this, 'has_sidebar' ) );
+	}
 
+	public function includes() {
+		include 'class-fg-services-post-type.php';
+		include 'class-fg-services-settings.php';
+		include 'class-fg-services-shortcodes.php';
+	}
+
+	public function init_classes() {
 		FG_Services_Post_Type::instance();
 		FG_Services_Settings::instance();
 		FG_Services_Shortcodes::instance();

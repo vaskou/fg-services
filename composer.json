@@ -1,5 +1,5 @@
 {
     "require": {
-        "vaskou/wordpress-custom-settings": "^1.2"
+        "vaskou/wordpress-custom-settings": "^2.0"
     }
 }
