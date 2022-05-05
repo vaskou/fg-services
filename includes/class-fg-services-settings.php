@@ -23,6 +23,7 @@ class FG_Services_Settings extends SettingsSetup {
 		$this->set_page_title( __( 'FG Services Settings', 'fg-services' ) );
 		$this->set_menu_title( __( 'FG Services Settings', 'fg-services' ) );
 		$this->set_menu_slug( 'fg-services' );
+		$this->add_settings_link( FG_SERVICES_PLUGIN_BASENAME );
 
 		$this->add_section( new SettingSection( 'general', __( 'General', 'fg-services' ) ) );
 

@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    '5311a6543a494ae7ce71e7b8eb99c9c2' => $vendorDir . '/vaskou/wordpress-custom-settings/WordpressCustomSettings/bootstrap_2_0_1.php',
+    '70430780f89c342e924b6181fe335fe2' => $vendorDir . '/vaskou/wordpress-custom-settings/WordpressCustomSettings/bootstrap_2_0_2.php',
 );

@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitaaa05f1591949011a63cbfa967dfff9f
 {
     public static $files = array (
-        '5311a6543a494ae7ce71e7b8eb99c9c2' => __DIR__ . '/..' . '/vaskou/wordpress-custom-settings/WordpressCustomSettings/bootstrap_2_0_1.php',
+        '70430780f89c342e924b6181fe335fe2' => __DIR__ . '/..' . '/vaskou/wordpress-custom-settings/WordpressCustomSettings/bootstrap_2_0_2.php',
     );
 
     public static $classMap = array (
