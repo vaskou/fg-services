@@ -20,7 +20,7 @@ class FG_Services {
 		add_action( 'plugins_loaded', array( $this, 'init_classes' ) );
 
 		add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
-		add_filter( 'fremediti_guitars_single_content_show_posted_on', array( $this, 'single_content_show_posted_on' ) );
+//		add_filter( 'fremediti_guitars_single_content_show_posted_on', array( $this, 'single_content_show_posted_on' ) );
 		add_filter( 'fremediti_guitars_has_sidebar', array( $this, 'has_sidebar' ) );
 	}
 
