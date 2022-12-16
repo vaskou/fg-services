@@ -46,7 +46,7 @@ class FG_Services_Shortcodes {
 
 		if ( have_posts() ) :
 			?>
-            <div class="uk-grid uk-child-width-1-2@m" uk-grid>
+            <div class="uk-grid uk-child-width-1-2@m fg-services-grid" uk-grid>
 				<?php
 				while ( have_posts() ) :
 					the_post();
